@@ -5,12 +5,12 @@ var request = require("request");
 var keys = require("./keys");
 var dotenv = require("dotenv").config();
 var twitter = require("twitter");
-var spotify = require("node-spotify-api");
+var spotifyAPI = require("node-spotify-api");
 
-// var spotifyKey = new Spotify(keys.spotify);
+// var spotify = new Spotify(keys.spotify);
 
 
-var search = process.argv[2]; 
+var search = process.argv[2];
 var term = process.argv.slice(3).join("+");
 
 var userInput = "";
@@ -71,6 +71,34 @@ function myTweets() {
     
 }
 
+function doWhatItSays() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+            console.log(error)
+        }
+
+        var dataArray = data.split(",");
+        console.log(dataArray);
+
+        search = dataArray[0];
+        term = dataArray[1];
+
+        switch (search) {
+            case "movie-this":
+            movieThis();
+            break;
+        
+            case "my-tweets":
+            myTweets();
+            break;
+        
+            case "spotify-this-song":
+            spotifyThisSong();
+            break;
+        }
+    })
+}
+
 switch (search) {
     case "movie-this":
     movieThis();
@@ -78,5 +106,13 @@ switch (search) {
 
     case "my-tweets":
     myTweets();
+    break;
+
+    case "spotify-this-song":
+    spotifyThisSong();
+    break;
+
+    case "do-what-it-says":
+    doWhatItSays();
     break;
 }

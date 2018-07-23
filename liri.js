@@ -16,8 +16,8 @@ var term = process.argv.slice(3).join("+");
 var userInput = "";
 
 function storeInput() {
-    for (var i = 3; i < term.length; i++) {
-        userInput = userInput + " " + term[i];
+    for (var i = 0; i < term.length; i++) {
+        userInput = userInput + term[i];
     }
 
     console.log("Searching for " + userInput + "\n")

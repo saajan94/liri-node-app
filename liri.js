@@ -1,14 +1,11 @@
-// Dependencies
+require("dotenv").config();
 
+// Dependencies
 var fs = require("fs");
 var request = require("request");
 var keys = require("./keys");
-var dotenv = require("dotenv").config();
 var twitter = require("twitter");
 var spotifyAPI = require("node-spotify-api");
-
-// var spotify = new Spotify(keys.spotify);
-
 
 var search = process.argv[2];
 var term = process.argv.slice(3).join("+");
@@ -25,7 +22,7 @@ function storeInput() {
 
 function movieThis() {
     var movieName;
-    storeInput()
+    storeInput();
 
     if (userInput !== "") {
         movieName = userInput;
@@ -55,7 +52,8 @@ function myTweets() {
     var client = new twitter(keys.twitter);
 
     var param = {
-        screen_name: "webdevtest123"
+        screen_name: "webdevtest123",
+        count: 20
     };
 
     client.get("statuses/user_timeline", param, function(error, response, tweets) {
@@ -63,11 +61,34 @@ function myTweets() {
             console.log(error);
         }
 
-        for (var i = 0; i < 20; i++) {
-            console.log(tweets[i].text + "\nDate tweeted: " + tweets[i].created_at);
+        for (var i = 0; i < tweets.length; i++) {
+            var currentTweet = tweets[i].text;
+            var tweetTime = tweets[i].created_at;
+            console.log(currentTweet + "\nDate tweeted: " + tweetTime);
         }
-    });
+    }); 
+}
 
+function spotifyThisSong() {
+    storeInput();
+
+    var spotify = new spotifyAPI(keys.spotify);
+	var query;
+
+	if (userInput !== "" && userInput !== null) {
+		query = userInput;
+	} else {
+		query = "The Sign";
+	}
+
+	spotify.search({type: "track", query: query}, function(err, data) {
+  		if (err) {
+    		return console.log("Error occurred: " + err);
+  		}
+		
+		console.log("\nTHE SONG YOU REQUESTED:\n\n" + "Artist: " + data.tracks.items[0].album.artists[0].name + "\nSong: " + query + "\nAlbum: " + data.tracks.items[0].album.name + "\nPreview link: " + data.tracks.items[0].album.artists[0].external_urls.spotify + "\n---------------\n");
+
+		});
     
 }
 

@@ -56,7 +56,7 @@ function myTweets() {
         count: 20
     };
 
-    client.get("statuses/user_timeline", param, function(error, response, tweets) {
+    client.get("statuses/user_timeline", param, function(error, tweets) {
         if (error) {
             console.log(error);
         }
@@ -64,7 +64,7 @@ function myTweets() {
         for (var i = 0; i < tweets.length; i++) {
             var currentTweet = tweets[i].text;
             var tweetTime = tweets[i].created_at;
-            console.log(currentTweet + "\nDate tweeted: " + tweetTime);
+            console.log("\nTweet: " + currentTweet + "\nDate tweeted: " + tweetTime + "\n-------------------------------");
         }
     }); 
 }

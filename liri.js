@@ -7,11 +7,14 @@ var keys = require("./keys");
 var twitter = require("twitter");
 var spotifyAPI = require("node-spotify-api");
 
+// Storing arguments in arrays to serve as commands
 var search = process.argv[2];
 var term = process.argv.slice(3).join("+");
 
+// Creates empty strings to store user input
 var userInput = "";
 
+// Adds each word in command to the array
 function storeInput() {
     for (var i = 0; i < term.length; i++) {
         userInput = userInput + term[i];
@@ -20,6 +23,7 @@ function storeInput() {
     console.log("Searching for " + userInput + "\n")
 }
 
+// Function to call and return movie entered by the user
 function movieThis() {
     var movieName;
     storeInput();
@@ -54,6 +58,7 @@ function movieThis() {
     })
 }
 
+// Function to call and return the last 20 tweets 
 function myTweets() {
     var client = new twitter(keys.twitter);
 
@@ -81,6 +86,7 @@ function myTweets() {
     }); 
 }
 
+// Function to call and return song entered by the user
 function spotifyThisSong() {
     storeInput();
 
@@ -110,6 +116,7 @@ function spotifyThisSong() {
     
 }
 
+// Function to perform previous actions through the use of a txt file
 function doWhatItSays() {
     fs.readFile("random.txt", "utf8", function(error, data) {
         if (error) {
@@ -122,6 +129,7 @@ function doWhatItSays() {
         search = dataArray[0];
         term = dataArray[1];
 
+        // Determines which function to carry out by using the case as the command
         switch (search) {
             case "movie-this":
             movieThis();
@@ -138,6 +146,7 @@ function doWhatItSays() {
     })
 }
 
+// Determines which function to carry out by using the case as the command
 switch (search) {
     case "movie-this":
     movieThis();

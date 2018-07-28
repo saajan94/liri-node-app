@@ -44,6 +44,12 @@ function movieThis() {
             console.log("Language: " + data.Language)
             console.log("Plot: " + data.Plot)
             console.log("Actors: " + data.Actors)
+
+            fs.appendFile("log.txt", "\nThe movie you requested: \n" + "\nName: " + data.Title + "\nYear: " + data.Year + "\nIMDB Rating: " + data.imdbRating + "\nRotten Tomatoes Rating: " + data.Ratings[1].Value + "\nCountry: " + data.Country + "\nLanguage: " + data.Language + "\nPlot: " + data.Plot + "\nActors: " + data.Actors + "\n----------------------------------------------------", function(err) {
+                if (err) {
+                    return err
+                }
+            })
         }
     })
 }
@@ -64,7 +70,13 @@ function myTweets() {
         for (var i = 0; i < tweets.length; i++) {
             var currentTweet = tweets[i].text;
             var tweetTime = tweets[i].created_at;
-            console.log("\nTweet: " + currentTweet + "\nDate tweeted: " + tweetTime + "\n-------------------------------");
+            console.log("\nTweet: " + currentTweet + "\nDate tweeted: " + tweetTime + "\n----------------------------------------------------");
+
+            fs.appendFile("log.txt", "\nTweet: " + currentTweet + "\nDate tweeted: " + tweetTime + "\n----------------------------------------------------", function(err) {
+                if (err) {
+                    return err
+                }
+            })
         }
     }); 
 }
@@ -83,10 +95,16 @@ function spotifyThisSong() {
 
 	spotify.search({type: "track", query: query}, function(err, data) {
   		if (err) {
-    		return console.log("Error occurred: " + err);
+    		return err;
   		}
 		
-		console.log("\nTHE SONG YOU REQUESTED:\n\n" + "Artist: " + data.tracks.items[0].album.artists[0].name + "\nSong: " + query + "\nAlbum: " + data.tracks.items[0].album.name + "\nPreview link: " + data.tracks.items[0].album.artists[0].external_urls.spotify + "\n---------------\n");
+        console.log("\nThe song you requested: \n" + "Artist: " + data.tracks.items[0].album.artists[0].name + "\nSong: " + query + "\nAlbum: " + data.tracks.items[0].album.name + "\nPreview link: " + data.tracks.items[0].album.artists[0].external_urls.spotify + "\n---------------\n");
+        
+        fs.appendFile("log.txt", "\nThe song you requested: \n" + "\nArtist: " + data.tracks.items[0].album.artists[0].name + "\nSong: " + query + "\nAlbum: " + data.tracks.items[0].album.name + "\nPreview link: " + data.tracks.items[0].album.artists[0].external_urls.spotify + "\n----------------------------------------------------", function(err) {
+            if (err) {
+                return err
+            }
+        })
 
 		});
     
